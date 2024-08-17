@@ -1,0 +1,10 @@
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.csproj.AssemblyReference.cache
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.AssemblyInfoInputs.cache
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.AssemblyInfo.cs
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.csproj.CoreCompileInputs.cache
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.MvcApplicationPartsAssemblyInfo.cs
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.MvcApplicationPartsAssemblyInfo.cache
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.RazorAssemblyInfo.cache
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.RazorAssemblyInfo.cs
+/Users/danavidroiu/Desktop/LearningPlatform/obj/Debug/net8.0/LearningPlatform.sourcelink.json
