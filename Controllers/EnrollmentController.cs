@@ -49,9 +49,7 @@ namespace LearningPlatform.Controllers
         public async Task<ActionResult<Enrollment>> PostEnrollment(Enrollment enrollment)
         {
             // Verifică dacă UserId și CourseId există
-            var userIdInt = int.Parse(enrollment.UserId);
-            var userExists = await _context.Users.AnyAsync(u => u.Id == userIdInt);
-
+            var userExists = await _context.Users.AnyAsync(u => u.Id == enrollment.UserId);
             var courseExists = await _context.Courses.AnyAsync(c => c.Id == enrollment.CourseId);
 
             if (!userExists || !courseExists)
@@ -64,6 +62,7 @@ namespace LearningPlatform.Controllers
 
             return CreatedAtAction(nameof(GetEnrollment), new { id = enrollment.Id }, enrollment);
         }
+
 
         // PUT: api/Enrollment/5
         [HttpPut("{id}")]

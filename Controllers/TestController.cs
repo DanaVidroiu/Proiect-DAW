@@ -6,7 +6,7 @@ namespace LearningPlatform.Controllers
     [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
-        [HttpGet("")]
+        [HttpGet("x")]
         public IActionResult Get()
         {
             return Ok("Hello World");

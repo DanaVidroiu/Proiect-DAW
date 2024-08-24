@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace LearningPlatform.Models
 {
@@ -27,13 +28,16 @@ namespace LearningPlatform.Models
 
         public bool IsPublished { get; set; }
 
-        [Required]
-        public string? UserId {get; set;}
+        public int ProfessorId { get; set; }  
 
-
+        [JsonIgnore]
         public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
+
+        [JsonIgnore]
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
-        public string Duration { get; set; } = string.Empty; // Changed to TimeSpan
+        public string Duration { get; set; } = string.Empty; 
+
+        public User? Professor { get; set; }
     }
 }

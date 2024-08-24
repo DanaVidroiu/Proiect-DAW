@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearningPlatform.Models;
+using LearningPlatform.Dtos; 
 
 [Route("api/[controller]")]
 [ApiController]
@@ -28,10 +29,27 @@ public class LessonsController : ControllerBase
 
     // GET: api/Lessons
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Lesson>>> GetLessons()
+    public async Task<ActionResult<IEnumerable<LessonDTO>>> GetLessons()
     {
-        return await _context.Lessons.ToListAsync();
+        var lessons = await _context.Lessons.ToListAsync();
+
+        if (lessons == null || !lessons.Any())
+        {
+            return NotFound(); // sau o listă goală dacă este necesar
+        }
+
+        var lessonDtos = lessons.Select(lesson => new LessonDTO
+        {
+            Id = lesson.Id,
+            Title = lesson.Title,
+            Content = lesson.Content,
+            CourseId = lesson.CourseId,
+            DisplayOrder = lesson.DisplayOrder
+        });
+
+        return Ok(lessonDtos);
     }
+
 
     // GET: api/Lessons/5
     [HttpGet("{id}")]

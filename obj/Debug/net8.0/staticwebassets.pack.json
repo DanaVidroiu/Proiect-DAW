@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/images/logo.png",
+      "PackagePath": "staticwebassets/images/logo.png"
+    },
+    {
+      "Id": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.LearningPlatform.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.LearningPlatform.props",
+      "PackagePath": "build\\LearningPlatform.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.LearningPlatform.props",
+      "PackagePath": "buildMultiTargeting\\LearningPlatform.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.LearningPlatform.props",
+      "PackagePath": "buildTransitive\\LearningPlatform.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -22,13 +22,20 @@ namespace LearningPlatform.Models
 
             // Configurări pentru relații și indici
             modelBuilder.Entity<Enrollment>()
-                .HasIndex(e => new { e.UserId, e.CourseId })
-                .IsUnique();
+                .HasOne(e => e.User)
+                .WithMany(u => u.Enrollments)
+                .HasForeignKey(e => e.UserId);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.CourseId);
 
             modelBuilder.Entity<Course>()
-                .HasOne<User>()
+                .HasOne(c => c.Professor)
                 .WithMany(u => u.CoursesCreated)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.ProfessorId)
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<Lesson>()
                 .HasIndex(l => new { l.CourseId, l.Title })
