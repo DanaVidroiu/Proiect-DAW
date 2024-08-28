@@ -1,16 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace LearningPlatform.Models
+namespace LearningPlatform.Dtos
 {
-    public class CourseStatistics
+    public class CourseStatisticsDTO
     {
         public int CourseStatisticsId { get; set; }
 
         [Required]
         public int CourseId { get; set; }
-        public Course? Course { get; set; } = new Course();
 
         [Range(0, int.MaxValue, ErrorMessage = "Enrollments count must be a positive integer.")]
+        
         public int EnrollmentsCount { get; set; }
         public int TotalEnrollments { get; set; } = 0;
 

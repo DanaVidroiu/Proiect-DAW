@@ -7,7 +7,7 @@ namespace LearningPlatform.Models
 {
     public class Course
     {
-        public int Id { get; set; }
+        public int CourseId { get; set; }
 
         [Required]
         [StringLength(200, ErrorMessage = "Title cannot be longer than 200 characters.")]
@@ -29,15 +29,18 @@ namespace LearningPlatform.Models
         public bool IsPublished { get; set; }
 
         public int ProfessorId { get; set; }  
+    
+        [JsonIgnore] 
+        public User Professor { get; set; } = new User();
 
-        [JsonIgnore]
         public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
-        [JsonIgnore]
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+
+        public ICollection<TagCourse> TagCourses { get; set; } = new List<TagCourse>();
 
         public string Duration { get; set; } = string.Empty; 
 
-        public User? Professor { get; set; }
+        public CourseStatistics? Statistics { get; set; }
     }
 }
