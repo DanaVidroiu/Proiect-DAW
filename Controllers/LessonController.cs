@@ -1,9 +1,11 @@
-// File: LessonsController.cs
 using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LearningPlatform.Services.LessonService;
 
+namespace LearningPlatform.Controllers
+{
 [ApiController]
 [Route("api/[controller]")]
 public class LessonsController : ControllerBase
@@ -63,4 +65,5 @@ public class LessonsController : ControllerBase
         await _lessonService.DeleteLessonAsync(id);
         return NoContent();
     }
+}
 }

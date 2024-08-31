@@ -2,7 +2,10 @@ using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LearningPlatform.Services.EnrollmentService;
 
+namespace LearningPlatform.Controllers
+{
 [ApiController]
 [Route("api/[controller]")]
 public class EnrollmentsController : ControllerBase
@@ -62,4 +65,5 @@ public class EnrollmentsController : ControllerBase
         await _enrollmentService.DeleteEnrollmentAsync(id);
         return NoContent();
     }
+}
 }

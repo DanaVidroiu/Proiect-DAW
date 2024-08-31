@@ -5,6 +5,9 @@ using System.Linq;
 
 public class DataInitializer
 {
+    private static readonly int defaultUserId = -1; 
+    private static readonly int defaultCourseId = -1;
+
     public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         using var serviceScope = serviceProvider.CreateScope();
@@ -24,7 +27,7 @@ public class DataInitializer
 
         await SeedLessonsAsync(context);
 
-        await SeedEnrollmentsAsync(context, roleManager);
+        await SeedEnrollmentsAsync(context, userManager);
 
         await SeedCourseStatisticsAsync(context);
     }
@@ -186,7 +189,7 @@ public class DataInitializer
         var courses = await context.Courses.ToListAsync();
         var course = context.Courses.FirstOrDefault(c => c.Title == "Introduction to C#");
 
-        if (course != null && !context.Lessons.Any(l => l.CourseId == course.CourseId))
+        if (course != null && !context.Lessons.Any())
         {
             context.Lessons.AddRange(new List<Lesson>
             {
@@ -212,42 +215,48 @@ public class DataInitializer
     }
 
 
-
-    private static async Task SeedEnrollmentsAsync(ApplicationDbContext context, UserManager<User> userManager)
+private static async Task SeedEnrollmentsAsync(ApplicationDbContext context, UserManager<User> userManager)
+{
+    if (!context.Enrollments.Any())
     {
-        if (!context.Enrollments.Any())
+        var students = await userManager.Users
+            .Where(u => !u.IsProfessor)
+            .ToListAsync();
+
+        // Verificăm dacă Email-ul nu este null sau gol înainte de a-l adăuga în dicționar
+        var studentDict = students
+            .Where(s => !string.IsNullOrEmpty(s.Email))  // Exclude studenții fără email
+            .ToDictionary(s => s.Email, s => s.Id);
+
+        var courses = await context.Courses.ToListAsync();
+
+        // Verificăm dacă Title-ul nu este null sau gol înainte de a-l adăuga în dicționar
+        var courseDict = courses
+            .Where(c => !string.IsNullOrEmpty(c.Title))  // Exclude cursurile fără titlu
+            .ToDictionary(c => c.Title, c => c.CourseId);
+
+        var enrollments = new List<Enrollment>
         {
-            var students = await userManager.Users
-                .Where(u => !u.IsProfessor)
-                .ToListAsync();
+            new Enrollment { UserId = studentDict.GetValueOrDefault("AntonioJohnson@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to C#", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-24) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("LouisDavid@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to C#", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-26) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("JaneSmith@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to C#", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-29) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("CharlieBrown@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Advanced SQL", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-21) }, 
+            new Enrollment { UserId = studentDict.GetValueOrDefault("ElisabetaDavis@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Advanced SQL", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-19) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("EduardMitchell@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Advanced SQL", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("JessicaWhite@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Advanced SQL", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("ThomasNorman@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-18) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("MaryIsabell@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("CharlieBrown@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-14) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("ElisabetaDavis@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-13) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("MaryIsabell@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-10) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("LouisDavid@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-9) },
+            new Enrollment { UserId = studentDict.GetValueOrDefault("EduardMitchell@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-5) }
+        };
 
-            var studentDict = students.ToDictionary(s => s.Email, s => s.Id);
-
-            var courses = await context.Courses.ToListAsync();
-            var courseDict = courses.ToDictionary(c => c.Title, c => c.CourseId);
-
-            var enrollments = new List<Enrollment>
-            {
-                new Enrollment { UserId = studentDict.GetValueOrDefault("AntonioJohnson@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to C#"), EnrollmentDate = DateTime.UtcNow.AddDays(-24) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("LouisDavid@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to C#"), EnrollmentDate = DateTime.UtcNow.AddDays(-26) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("JaneSmith@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to C#"), EnrollmentDate = DateTime.UtcNow.AddDays(-29) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("CharlieBrown@gmail.com"), CourseId = courseDict.GetValueOrDefault("Advanced SQL"),EnrollmentDate = DateTime.UtcNow.AddDays(-21) }, 
-                new Enrollment { UserId = studentDict.GetValueOrDefault("ElisabetaDavis@gmail.com"), CourseId = courseDict.GetValueOrDefault("Advanced SQL"), EnrollmentDate = DateTime.UtcNow.AddDays(-19) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("EduardMitchell@gmail.com"), CourseId = courseDict.GetValueOrDefault("Advanced SQL"), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("JessicaWhite@gmail.com"), CourseId = courseDict.GetValueOrDefault("Advanced SQL"), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("ThomasNorman@gmail.com"), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core"), EnrollmentDate = DateTime.UtcNow.AddDays(-18) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("MaryIsabell@gmail.com"), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core"), EnrollmentDate = DateTime.UtcNow.AddDays(-15) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("CharlieBrown@gmail.com"), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core"), EnrollmentDate = DateTime.UtcNow.AddDays(-14) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("ElisabetaDavis@gmail.com"), CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core"), EnrollmentDate = DateTime.UtcNow.AddDays(-13) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("MaryIsabell@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science"), EnrollmentDate = DateTime.UtcNow.AddDays(-10) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("LouisDavid@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science"), EnrollmentDate = DateTime.UtcNow.AddDays(-9) },
-                new Enrollment { UserId = studentDict.GetValueOrDefault("EduardMitchell@gmail.com"), CourseId = courseDict.GetValueOrDefault("Introduction to Data Science"), EnrollmentDate = DateTime.UtcNow.AddDays(-5) }
-            };
-
-            context.Enrollments.AddRange(enrollments);
-            await context.SaveChangesAsync();
-        }
+        context.Enrollments.AddRange(enrollments);
+        await context.SaveChangesAsync();
     }
+}
 
 
     private static async Task SeedCourseStatisticsAsync(ApplicationDbContext context)
@@ -255,8 +264,11 @@ public class DataInitializer
         if (!context.CourseStatistics.Any())
         {
             var courses = await context.Courses.ToListAsync();
-            var courseDict = courses.ToDictionary(c => c.Title, c => c.CourseId);
-
+            var courseDict = courses
+                .GroupBy(c => c.Title)
+                .Select(group => group.First())  // Alege primul element dacă există duplicate
+                .ToDictionary(c => c.Title, c => c.CourseId);
+            
             var courseStatistics = new List<CourseStatistics>
             {
                 new CourseStatistics 

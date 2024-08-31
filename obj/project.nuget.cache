@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "teh0jWjb6iA=",
+  "dgSpecHash": "eHnsxkwji6s=",
   "success": true,
   "projectFilePath": "/Users/danavidroiu/Desktop/LearningPlatform/LearningPlatform.csproj",
   "expectedPackageFiles": [
@@ -50,10 +50,10 @@
     "/Users/danavidroiu/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
     "/Users/danavidroiu/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
     "/Users/danavidroiu/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
-    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore/6.7.0/swashbuckle.aspnetcore.6.7.0.nupkg.sha512",
-    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swagger/6.7.0/swashbuckle.aspnetcore.swagger.6.7.0.nupkg.sha512",
-    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.7.0/swashbuckle.aspnetcore.swaggergen.6.7.0.nupkg.sha512",
-    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.7.0/swashbuckle.aspnetcore.swaggerui.6.7.0.nupkg.sha512",
+    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore/6.7.3/swashbuckle.aspnetcore.6.7.3.nupkg.sha512",
+    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swagger/6.7.3/swashbuckle.aspnetcore.swagger.6.7.3.nupkg.sha512",
+    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.7.3/swashbuckle.aspnetcore.swaggergen.6.7.3.nupkg.sha512",
+    "/Users/danavidroiu/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.7.3/swashbuckle.aspnetcore.swaggerui.6.7.3.nupkg.sha512",
     "/Users/danavidroiu/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/Users/danavidroiu/.nuget/packages/system.collections.immutable/6.0.0/system.collections.immutable.6.0.0.nupkg.sha512",
     "/Users/danavidroiu/.nuget/packages/system.composition/6.0.0/system.composition.6.0.0.nupkg.sha512",

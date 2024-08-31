@@ -3,11 +3,14 @@ using LearningPlatform.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUserService
+namespace LearningPlatform.Services.UserService
 {
-    Task<IEnumerable<UserDTO>> GetAllUsersAsync();
-    Task<UserDTO> GetUserByIdAsync(int userId);
-    Task CreateUserAsync(UserDTO userDto);
-    Task UpdateUserAsync(UserDTO userDto);
-    Task DeleteUserAsync(int userId);
+    public interface IUserService
+    {
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        Task<UserDTO> GetUserByIdAsync(int userId);
+        Task CreateUserAsync(UserDTO userDto);
+        Task UpdateUserAsync(UserDTO userDto);
+        Task DeleteUserAsync(int userId);
+    }
 }

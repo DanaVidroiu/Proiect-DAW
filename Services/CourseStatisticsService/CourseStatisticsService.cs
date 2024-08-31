@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace LearningPlatform.Services.CourseStatisticsService
+{
 public class CourseStatisticsService : ICourseStatisticsService
 {
     private readonly ApplicationDbContext _context;
@@ -82,4 +84,5 @@ public class CourseStatisticsService : ICourseStatisticsService
             await _context.SaveChangesAsync();
         }
     }
+}
 }

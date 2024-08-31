@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace LearningPlatform.Services.UserService
+{
 public class UserService : IUserService
 {
     private readonly ApplicationDbContext _context;
@@ -82,4 +84,5 @@ public class UserService : IUserService
             await _context.SaveChangesAsync();
         }
     }
+}
 }

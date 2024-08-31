@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+namespace LearningPlatform.Services.EnrollmentService
+{
 public class EnrollmentService : IEnrollmentService
 {
     private readonly ApplicationDbContext _context;
@@ -78,4 +80,5 @@ public class EnrollmentService : IEnrollmentService
             await _context.SaveChangesAsync();
         }
     }
+}
 }

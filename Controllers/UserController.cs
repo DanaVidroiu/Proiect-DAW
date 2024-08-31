@@ -2,7 +2,10 @@ using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LearningPlatform.Services.UserService;
 
+namespace LearningPlatform.Controllers
+{
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
@@ -62,4 +65,5 @@ public class UsersController : ControllerBase
         await _userService.DeleteUserAsync(id);
         return NoContent();
     }
+}
 }

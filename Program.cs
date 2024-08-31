@@ -9,9 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.DependencyInjection;
 using LearningPlatform.Models;
-
+using LearningPlatform.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Learning Platform API", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -74,19 +73,35 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    var jwtSection = builder.Configuration.GetSection("Jwt");
+    var key = jwtSection["Key"];
+    var issuer = jwtSection["Issuer"];
+    var audience = jwtSection["Audience"];
+
+    // Logarea valorilor pentru debugging
+    var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("JWT Issuer: {Issuer}", issuer);
+    logger.LogInformation("JWT Audience: {Audience}", audience);
+    logger.LogInformation("JWT Key: {Key}", key);
+
+    if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience) || string.IsNullOrEmpty(key))
+    {
+        throw new ArgumentNullException("JWT configuration values are missing.");
+    }
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidIssuer = issuer,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])),
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
 });
+
 
 // Configurarea autorizației
 builder.Services.AddAuthorization(options =>
@@ -94,6 +109,16 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireProfessorRole", policy => policy.RequireRole("Professor"));
     options.AddPolicy("RequireStudentRole", policy => policy.RequireRole("Student"));
 });
+
+
+builder.Services.AddScoped<IUsereService, UserService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+builder.Services.AddScoped<ICourseStatsticsService, CourseStatisticsService>();
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ITagCourseService, TagCourseService>();
+
 
 var app = builder.Build();
 
@@ -113,9 +138,11 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while seeding the database.");
+        throw;
     }
 }
 
+// Configurare middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -123,6 +150,12 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learning Platform API v1"));
+}
 
 app.MapControllers();
 

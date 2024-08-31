@@ -2,11 +2,14 @@ using LearningPlatform.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface ICourseStatisticsService
+namespace LearningPlatform.Services.CourseStatisticsService
 {
-    Task<IEnumerable<CourseStatisticsDTO>> GetAllCourseStatisticsAsync();
-    Task<CourseStatisticsDTO> GetCourseStatisticsByIdAsync(int courseStatisticsId);
-    Task CreateCourseStatisticsAsync(CourseStatisticsDTO courseStatisticsDto);
-    Task UpdateCourseStatisticsAsync(CourseStatisticsDTO courseStatisticsDto);
-    Task DeleteCourseStatisticsAsync(int courseStatisticsId);
+    public interface ICourseStatisticsService
+    {
+        Task<IEnumerable<CourseStatisticsDTO>> GetAllCourseStatisticsAsync();
+        Task<CourseStatisticsDTO> GetCourseStatisticsByIdAsync(int courseStatisticsId);
+        Task CreateCourseStatisticsAsync(CourseStatisticsDTO courseStatisticsDto);
+        Task UpdateCourseStatisticsAsync(CourseStatisticsDTO courseStatisticsDto);
+        Task DeleteCourseStatisticsAsync(int courseStatisticsId);
+    }
 }

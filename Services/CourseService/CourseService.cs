@@ -5,6 +5,8 @@ using LearningPlatform.Dtos;
 using LearningPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 
+namespace LearningPlatform.Services.CourseService
+{
 public class CourseService : ICourseService
 {
     private readonly ApplicationDbContext _context;
@@ -134,4 +136,5 @@ public class CourseService : ICourseService
 
         return true;
     }
+}
 }
