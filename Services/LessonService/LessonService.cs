@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearningPlatform.Services.LessonService
+namespace LearningPlatform.Services
 {
 public class LessonService : ILessonService
 {
@@ -84,5 +84,6 @@ public class LessonService : ILessonService
             await _context.SaveChangesAsync();
         }
     }
+
 }
 }

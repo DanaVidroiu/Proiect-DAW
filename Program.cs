@@ -47,6 +47,7 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+
 // Configurarea contextului bazei de date pentru SQLite
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -111,11 +112,11 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-builder.Services.AddScoped<IUsereService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
-builder.Services.AddScoped<ICourseStatsticsService, CourseStatisticsService>();
+builder.Services.AddScoped<ICourseStatisticsService, CourseStatisticsService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<ITagCourseService, TagCourseService>();
 

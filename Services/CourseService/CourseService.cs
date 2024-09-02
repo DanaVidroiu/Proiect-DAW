@@ -5,7 +5,7 @@ using LearningPlatform.Dtos;
 using LearningPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LearningPlatform.Services.CourseService
+namespace LearningPlatform.Services
 {
 public class CourseService : ICourseService
 {
@@ -32,9 +32,10 @@ public class CourseService : ICourseService
                 Duration = c.Duration,
                 Statistics = c.Statistics != null ? new CourseStatisticsDTO
                 {
-                    CourseId = c.Statistics.CourseId,
-                    TotalRevenue = c.Statistics.TotalRevenue,
-                    TotalEnrollments = c.Statistics.TotalEnrollments
+                CourseStatisticsId = c.Statistics.CourseStatisticsId,
+                CourseId = c.Statistics.CourseId, 
+                TotalEnrollments = c.Statistics.TotalEnrollments,
+                TotalRevenue = c.Statistics.TotalRevenue
                 } : null
             }).ToListAsync();
     }
@@ -56,9 +57,10 @@ public class CourseService : ICourseService
                 Duration = c.Duration,
                 Statistics = c.Statistics != null ? new CourseStatisticsDTO
                 {
-                    CourseId = c.Statistics.CourseId,
-                    TotalRevenue = c.Statistics.TotalRevenue,
-                    TotalEnrollments = c.Statistics.TotalEnrollments
+                CourseStatisticsId = c.Statistics.CourseStatisticsId,
+                CourseId = c.Statistics.CourseId,
+                TotalEnrollments = c.Statistics.TotalEnrollments,
+                TotalRevenue = c.Statistics.TotalRevenue
                 } : null
             }).FirstOrDefaultAsync();
 
@@ -79,9 +81,9 @@ public class CourseService : ICourseService
             Duration = courseDto.Duration,
             Statistics = courseDto.Statistics != null ? new CourseStatistics
             {
-                CourseId = courseDto.Statistics.CourseId,
-                TotalRevenue = courseDto.Statistics.TotalRevenue,
-                TotalEnrollments = courseDto.Statistics.TotalEnrollments
+                CourseId = courseDto.Statistics.CourseId, 
+                TotalEnrollments = courseDto.Statistics.TotalEnrollments,
+                TotalRevenue = courseDto.Statistics.TotalRevenue
             } : null
         };
 
@@ -114,9 +116,9 @@ public class CourseService : ICourseService
                 course.Statistics = new CourseStatistics();
             }
 
-            course.Statistics.CourseId = courseDto.Statistics.CourseId;
-            course.Statistics.TotalRevenue = courseDto.Statistics.TotalRevenue;
+            course.Statistics.CourseId = courseDto.Statistics.CourseId; 
             course.Statistics.TotalEnrollments = courseDto.Statistics.TotalEnrollments;
+            course.Statistics.TotalRevenue = courseDto.Statistics.TotalRevenue;
         }
 
         _context.Courses.Update(course);
@@ -136,5 +138,95 @@ public class CourseService : ICourseService
 
         return true;
     }
+
+    //filtreaza doar cursurile publicate 
+    public async Task<IEnumerable<CourseDTO>> GetPublishedCoursesAsync()
+    {
+        return await _context.Courses
+                             .Where(c => c.IsPublished) 
+                             .Select(c => new CourseDTO
+                             {
+                                CourseId = c.CourseId,
+                                Title = c.Title,
+                                Description = c.Description,
+                                Level = c.Level,
+                                Category = c.Category,
+                                Price = c.Price,
+                                IsPublished = c.IsPublished,
+                                ProfessorId = c.ProfessorId,
+                                Duration = c.Duration,
+                                Statistics = c.Statistics != null ? new CourseStatisticsDTO
+                                {
+                                    CourseStatisticsId = c.Statistics.CourseStatisticsId,
+                                    CourseId = c.Statistics.CourseId,
+                                    TotalEnrollments = c.Statistics.TotalEnrollments,
+                                    TotalRevenue = c.Statistics.TotalRevenue
+                                } : null
+                             })
+                             .ToListAsync();
+    }
+
+    //grupeaza cursurile dupa nivel 
+    public async Task<IEnumerable<CoursesByLevelDTO>> GetCoursesByLevelAsync()
+    {
+        return await _context.Courses
+                             .Where(c => !string.IsNullOrWhiteSpace(c.Level))
+                             .GroupBy(c => c.Level) 
+                             .Select(group => new CoursesByLevelDTO
+                             {
+                                Level = group.Key, 
+                                CoursesCount = group.Count(), 
+                                AveragePrice = group.Average(c => c.Price)
+                             })
+                             .ToListAsync();
+    }
+
+
+    public async Task<IEnumerable<CourseDTO>> GetCoursesWithProfessorsAsync()
+    {
+        return await _context.Courses
+                            .Join(_context.Users,
+                                course => course.ProfessorId,
+                                professor => professor.Id,
+                                (course, professor) => new CourseDTO
+                                {
+                                    CourseId = course.CourseId,
+                                    Title = course.Title,
+                                    Description = course.Description,
+                                    Level = course.Level,
+                                    Category = course.Category,
+                                    Price = course.Price,
+                                    IsPublished = course.IsPublished,
+                                    Duration = course.Duration,
+                                    Statistics = course.Statistics != null ? new CourseStatisticsDTO
+                                    {
+                                        CourseStatisticsId = course.Statistics.CourseStatisticsId,
+                                        CourseId = course.Statistics.CourseId,
+                                        TotalEnrollments = course.Statistics.TotalEnrollments,
+                                        TotalRevenue = course.Statistics.TotalRevenue
+                                    } : null
+                                })
+                            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<CourseWithLessonsDTO>> GetCoursesWithLessonsAsync()
+    {
+        return await _context.Courses
+                            .Include(c => c.Lessons) 
+                            .Select(c => new CourseWithLessonsDTO
+                            {
+                                CourseId = c.CourseId,
+                                Title = c.Title,
+                                Lessons = c.Lessons.Select(l => new LessonDTO
+                                {
+                                    LessonId = l.LessonId,
+                                    Title = l.Title,
+                                    Content = l.Content,
+                                    DisplayOrder = l.DisplayOrder
+                                }).ToList()
+                            })
+                            .ToListAsync();
+    }
+
 }
 }

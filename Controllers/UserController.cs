@@ -2,7 +2,7 @@ using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LearningPlatform.Services.UserService;
+using LearningPlatform.Services;
 
 namespace LearningPlatform.Controllers
 {
@@ -44,13 +44,13 @@ public class UsersController : ControllerBase
         }
 
         await _userService.CreateUserAsync(userDto);
-        return CreatedAtAction(nameof(GetUserById), new { id = userDto.UserId }, userDto);
+        return CreatedAtAction(nameof(GetUserById), new { id = userDto.Id }, userDto);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDto)
     {
-        if (userDto == null || userDto.UserId != id)
+        if (userDto == null || userDto.Id != id)
         {
             return BadRequest();
         }

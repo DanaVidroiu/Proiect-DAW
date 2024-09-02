@@ -7,8 +7,8 @@ namespace LearningPlatform.Models
 {
     public class User : IdentityUser<int>
     {
-
-        public int UserId { get; set; }
+        [Key]
+        public int id { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearningPlatform.Models;
 using LearningPlatform.Dtos;
-using LearningPlatform.Services.CourseService;
+using LearningPlatform.Services;
 
 namespace LearningPlatform.Controllers
 {
@@ -66,5 +66,34 @@ namespace LearningPlatform.Controllers
             }
             return NoContent();
         }
-    }
+
+        [HttpGet("published-courses")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetPublishedCourses()
+        {
+            var publishedCourses = await _courseService.GetPublishedCoursesAsync();
+            return Ok(publishedCourses);
+        }
+
+
+        [HttpGet("courses-by-level")]
+        public async Task<ActionResult<IEnumerable<CoursesByLevelDTO>>> GetCoursesByLevel()
+        {
+            var coursesByLevel = await _courseService.GetCoursesByLevelAsync();
+            return Ok(coursesByLevel);
+        }
+
+        [HttpGet("courses-with-professors")]
+        public async Task<ActionResult<IEnumerable<CourseDTO>>> GetCoursesWithProfessors()
+        {
+            var coursesWithProfessors = await _courseService.GetCoursesWithProfessorsAsync();
+            return Ok(coursesWithProfessors);
+        }
+
+        [HttpGet("courses-with-lessons")]
+        public async Task<ActionResult<IEnumerable<CourseWithLessonsDTO>>> GetCoursesWithLessons()
+        {
+            var coursesWithLessons = await _courseService.GetCoursesWithLessonsAsync();
+            return Ok(coursesWithLessons);
+        }
+}
 }

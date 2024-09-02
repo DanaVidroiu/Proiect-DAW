@@ -24,12 +24,11 @@ namespace LearningPlatform.Models
         {
             base.OnModelCreating(modelBuilder);
 
-
             // One-To-Many : User <=> Enrollments
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Enrollments)
                 .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId)
+                .HasForeignKey(e => e.EnrollmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //One-To-Many : User <=> Course 
@@ -57,7 +56,7 @@ namespace LearningPlatform.Models
             modelBuilder.Entity<Enrollment>()
                 .HasOne(e => e.User)
                 .WithMany(u => u.Enrollments)
-                .HasForeignKey(e => e.UserId)
+                .HasForeignKey(e => e.EnrollmentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // One-To-One : Course <=> CourseStatistics

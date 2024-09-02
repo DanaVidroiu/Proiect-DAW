@@ -39,15 +39,13 @@ public class DataInitializer
         {
             var roles = new[] { "Professor", "Student" };
 
-            var roleCreationTasks = roles.Select(async role =>
+           foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
                     await roleManager.CreateAsync(new IdentityRole<int> { Name = role });
                 }
-            }).ToList();
-
-            await Task.WhenAll(roleCreationTasks);
+            }
         }
     }
 
@@ -83,15 +81,28 @@ public class DataInitializer
                     var result = await userManager.CreateAsync(user, password);
                     if (result.Succeeded)
                     {
+                        var createdUser = await userManager.FindByEmailAsync(user.Email);
+                        if (createdUser?.Id == null)
+                        {
+                            Console.WriteLine($"User {user.Email} does not have a valid Id after creation.");
+                            continue;
+                        }
+
                         if (user.IsProfessor)
                         {
                             await userManager.AddToRoleAsync(user, "Professor");
+                            Console.WriteLine($"Added {user.UserName} to Professor role.");
                         }
                         else
                         {
                             await userManager.AddToRoleAsync(user, "Student");
+                            Console.WriteLine($"Added {user.UserName} to Student role.");
                         }
-                    }   
+                    } 
+                    else 
+                    {
+                        Console.WriteLine($"Failed to create user {user.Email}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                    }  
                 }
             }
         }
@@ -118,7 +129,7 @@ public class DataInitializer
         {
             var professors = await userManager.GetUsersInRoleAsync("Professor");
 
-            if (professors == null || !professors.Any())
+            if (professors == null || professors.Count < 3)
             {
                 throw new InvalidOperationException("Nu s-au găsit profesori în baza de date.");
             }
@@ -235,6 +246,19 @@ private static async Task SeedEnrollmentsAsync(ApplicationDbContext context, Use
             .Where(c => !string.IsNullOrEmpty(c.Title))  // Exclude cursurile fără titlu
             .ToDictionary(c => c.Title, c => c.CourseId);
 
+
+        Console.WriteLine("Students:");
+        foreach (var student in studentDict)
+        {
+            Console.WriteLine($"Email: {student.Key}, ID: {student.Value}");
+        }
+
+        Console.WriteLine("Courses:");
+        foreach (var course in courseDict)
+        {
+            Console.WriteLine($"Title: {course.Key}, ID: {course.Value}");
+        }
+
         var enrollments = new List<Enrollment>
         {
             new Enrollment { UserId = studentDict.GetValueOrDefault("AntonioJohnson@gmail.com", defaultUserId), CourseId = courseDict.GetValueOrDefault("Introduction to C#", defaultCourseId), EnrollmentDate = DateTime.UtcNow.AddDays(-24) },
@@ -263,42 +287,49 @@ private static async Task SeedEnrollmentsAsync(ApplicationDbContext context, Use
     {
         if (!context.CourseStatistics.Any())
         {
-            var courses = await context.Courses.ToListAsync();
-            var courseDict = courses
+            var courses = await context.Courses
                 .GroupBy(c => c.Title)
-                .Select(group => group.First())  // Alege primul element dacă există duplicate
-                .ToDictionary(c => c.Title, c => c.CourseId);
-            
+                .ToDictionaryAsync(g => g.Key, global => global.First().CourseId);
+
             var courseStatistics = new List<CourseStatistics>
             {
                 new CourseStatistics 
                 { 
-                    CourseId = courseDict.GetValueOrDefault("Introduction to C#"),
+                    CourseId = courses.GetValueOrDefault("Introduction to C#"),
                     TotalRevenue = 300.00m, 
                     TotalEnrollments = 3
                 },
                 new CourseStatistics 
                 { 
-                    CourseId = courseDict.GetValueOrDefault("Advanced SQL"),
+                    CourseId = courses.GetValueOrDefault("Advanced SQL"),
                     TotalRevenue = 480.00m, 
                     TotalEnrollments = 4
                 },
                 new CourseStatistics 
                 { 
-                    CourseId = courseDict.GetValueOrDefault("Web Development with ASP.NET Core"),
+                    CourseId = courses.GetValueOrDefault("Web Development with ASP.NET Core"),
                     TotalRevenue = 796.00m, 
                     TotalEnrollments = 4
                 },
                 new CourseStatistics 
                 { 
-                    CourseId = courseDict.GetValueOrDefault("Introduction to Data Science"),
+                    CourseId = courses.GetValueOrDefault("Introduction to Data Science"),
                     TotalRevenue = 477.00m, 
                     TotalEnrollments = 3
                 }
             };
-        
+            
+        // Filtrăm statisticile cu CourseId invalid (adică 0)
+        courseStatistics = courseStatistics.Where(cs => cs.CourseId != 0).ToList();
+
+        if (courseStatistics.Any())
+        {
             context.CourseStatistics.AddRange(courseStatistics);
             await context.SaveChangesAsync();
+        }
+        
+        context.CourseStatistics.AddRange(courseStatistics);
+        await context.SaveChangesAsync();
         }
     }
 }

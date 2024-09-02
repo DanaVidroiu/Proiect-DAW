@@ -2,7 +2,7 @@ using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LearningPlatform.Services.LessonService;
+using LearningPlatform.Services;
 
 namespace LearningPlatform.Controllers
 {
@@ -65,5 +65,6 @@ public class LessonsController : ControllerBase
         await _lessonService.DeleteLessonAsync(id);
         return NoContent();
     }
+
 }
 }

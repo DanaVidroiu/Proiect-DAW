@@ -2,7 +2,7 @@ using LearningPlatform.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LearningPlatform.Services.EnrollmentService
+namespace LearningPlatform.Services
 {
     public interface IEnrollmentService
     {

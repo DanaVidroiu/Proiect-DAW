@@ -19,5 +19,6 @@ namespace LearningPlatform.Dtos
 
         [Range(1, int.MaxValue, ErrorMessage = "Display order must be a positive integer.")]
         public int DisplayOrder { get; set; }
+    
     }
 }

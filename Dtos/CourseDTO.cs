@@ -31,6 +31,9 @@ namespace LearningPlatform.Dtos
         public string Duration { get; set; } = string.Empty;
 
         public CourseStatisticsDTO? Statistics { get; set; }
+   
+        public int? CoursesCount { get; set; }
+        public double? AveragePrice { get; set; }
     }
 
 }

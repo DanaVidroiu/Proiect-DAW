@@ -2,7 +2,7 @@ using LearningPlatform.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LearningPlatform.Services.LessonService
+namespace LearningPlatform.Services
 {
 public interface ILessonService
 {
@@ -11,5 +11,5 @@ public interface ILessonService
     Task CreateLessonAsync(LessonDTO lessonDto);
     Task UpdateLessonAsync(LessonDTO lessonDto);
     Task DeleteLessonAsync(int lessonId);
-}
+    }
 }

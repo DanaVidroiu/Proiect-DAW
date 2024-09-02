@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearningPlatform.Services.UserService
+namespace LearningPlatform.Services
 {
 public class UserService : IUserService
 {
@@ -21,7 +21,7 @@ public class UserService : IUserService
         return await _context.Users
                              .Select(user => new UserDTO
                              {
-                                 UserId = user.UserId,
+                                 Id = user.Id,
                                  Name = user.Name,
                                  Email = user.Email,
                                  IsProfessor = user.IsProfessor,
@@ -30,13 +30,13 @@ public class UserService : IUserService
                              .ToListAsync();
     }
 
-    public async Task<UserDTO> GetUserByIdAsync(int userId)
+    public async Task<UserDTO> GetUserByIdAsync(int id)
     {
         var user = await _context.Users
-                                  .Where(u => u.UserId == userId)
+                                  .Where(u => u.Id == id)
                                   .Select(u => new UserDTO
                                   {
-                                      UserId = u.UserId,
+                                      Id = u.Id,
                                       Name = u.Name,
                                       Email = u.Email,
                                       IsProfessor = u.IsProfessor,
@@ -50,7 +50,6 @@ public class UserService : IUserService
     {
         var user = new User
         {
-            UserId = userDto.UserId,
             Name = userDto.Name,
             Email = userDto.Email,
             IsProfessor = userDto.IsProfessor,
@@ -62,7 +61,7 @@ public class UserService : IUserService
 
     public async Task UpdateUserAsync(UserDTO userDto)
     {
-        var user = await _context.Users.FindAsync(userDto.UserId);
+        var user = await _context.Users.FindAsync(userDto.Id);
         if (user != null)
         {
             user.Name = userDto.Name;
@@ -75,9 +74,9 @@ public class UserService : IUserService
         }
     }
 
-    public async Task DeleteUserAsync(int userId)
+    public async Task DeleteUserAsync(int id)
     {
-        var user = await _context.Users.FindAsync(userId);
+        var user = await _context.Users.FindAsync(id);
         if (user != null)
         {
             _context.Users.Remove(user);

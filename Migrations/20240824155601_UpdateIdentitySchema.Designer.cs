@@ -70,14 +70,9 @@ namespace LearningPlatform.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("AverageRating")
-                        .HasColumnType("REAL");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EnrollmentsCount")
-                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("TotalRevenue")
                         .HasColumnType("decimal(18,2)");

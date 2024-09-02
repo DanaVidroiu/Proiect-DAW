@@ -2,7 +2,7 @@ using LearningPlatform.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LearningPlatform.Services.TagCourseService;
+using LearningPlatform.Services;
 
 namespace LearningPlatform.Controllers
 {

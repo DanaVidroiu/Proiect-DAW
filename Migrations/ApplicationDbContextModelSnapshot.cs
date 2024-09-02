@@ -67,13 +67,7 @@ namespace LearningPlatform.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("AverageRating")
-                        .HasColumnType("REAL");
-
                     b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("EnrollmentsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TotalEnrollments")
@@ -93,7 +87,6 @@ namespace LearningPlatform.Migrations
             modelBuilder.Entity("LearningPlatform.Models.Enrollment", b =>
                 {
                     b.Property<int>("EnrollmentId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CourseId")
@@ -108,8 +101,6 @@ namespace LearningPlatform.Migrations
                     b.HasKey("EnrollmentId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
                 });
@@ -245,9 +236,6 @@ namespace LearningPlatform.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
@@ -430,7 +418,7 @@ namespace LearningPlatform.Migrations
 
                     b.HasOne("LearningPlatform.Models.User", "User")
                         .WithMany("Enrollments")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("EnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

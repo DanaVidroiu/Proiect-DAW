@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "UWlfidx4EF/yp1vGUjEwBbwiRhwQOy74qEX9oeLu2Tc=",
+  "Source": "LearningPlatform",
+  "BasePath": "_content/LearningPlatform",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "LearningPlatform/wwwroot",
+      "Source": "LearningPlatform",
+      "ContentRoot": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/",
+      "BasePath": "_content/LearningPlatform",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/css/site.css",
+      "SourceId": "LearningPlatform",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/",
+      "BasePath": "_content/LearningPlatform",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/images/logo.png",
+      "SourceId": "LearningPlatform",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/",
+      "BasePath": "_content/LearningPlatform",
+      "RelativePath": "images/logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/logo.png"
+    },
+    {
+      "Identity": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/js/site.js",
+      "SourceId": "LearningPlatform",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/danavidroiu/Desktop/LearningPlatform/wwwroot/",
+      "BasePath": "_content/LearningPlatform",
+      "RelativePath": "js/site.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/site.js"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearningPlatform.Services.CourseStatisticsService
+namespace LearningPlatform.Services
 {
 public class CourseStatisticsService : ICourseStatisticsService
 {
@@ -23,8 +23,6 @@ public class CourseStatisticsService : ICourseStatisticsService
                              {
                                  CourseStatisticsId = statistics.CourseStatisticsId,
                                  CourseId = statistics.CourseId,
-                                 EnrollmentsCount = statistics.EnrollmentsCount,
-                                 AverageRating = statistics.AverageRating,
                                  TotalRevenue = statistics.TotalRevenue
                              })
                              .ToListAsync();
@@ -38,8 +36,6 @@ public class CourseStatisticsService : ICourseStatisticsService
                                         {
                                             CourseStatisticsId = s.CourseStatisticsId,
                                             CourseId = s.CourseId,
-                                            EnrollmentsCount = s.EnrollmentsCount,
-                                            AverageRating = s.AverageRating,
                                             TotalRevenue = s.TotalRevenue
                                         })
                                         .FirstOrDefaultAsync();
@@ -52,8 +48,6 @@ public class CourseStatisticsService : ICourseStatisticsService
         {
             CourseStatisticsId = courseStatisticsDto.CourseStatisticsId,
             CourseId = courseStatisticsDto.CourseId,
-            EnrollmentsCount = courseStatisticsDto.EnrollmentsCount,
-            AverageRating = courseStatisticsDto.AverageRating,
             TotalRevenue = courseStatisticsDto.TotalRevenue
         };
         _context.CourseStatistics.Add(statistics);
@@ -66,8 +60,6 @@ public class CourseStatisticsService : ICourseStatisticsService
         if (statistics != null)
         {
             statistics.CourseId = courseStatisticsDto.CourseId;
-            statistics.EnrollmentsCount = courseStatisticsDto.EnrollmentsCount;
-            statistics.AverageRating = courseStatisticsDto.AverageRating;
             statistics.TotalRevenue = courseStatisticsDto.TotalRevenue;
 
             _context.CourseStatistics.Update(statistics);

@@ -199,8 +199,7 @@ namespace LearningPlatform.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CourseId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EnrollmentsCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    AverageRating = table.Column<double>(type: "REAL", nullable: false),
+                    TotaLEnrollmets = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalRevenue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
